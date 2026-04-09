@@ -5,126 +5,96 @@
 <title>AIPPM Brief</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Georgia', serif;
-    background: black;
-    color: white;
-    overflow: hidden;
+body{
+    margin:0;
+    font-family:Georgia,serif;
+    background:black;
+    color:white;
+    overflow:hidden;
 }
-
-/* Background */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
     background:
-        linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.95)),
-        url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
-        no-repeat center;
-
-    background-size: cover;
-    transform: scale(1.15);
-    z-index: -1;
+      linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,.95)),
+      url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
+      no-repeat center/cover;
+    transform:scale(1.15);
+    z-index:-1;
+}
+.header{
+    position:absolute;top:0;width:100%;
+    padding:18px 0;text-align:center;
+    font-size:13px;letter-spacing:3px;opacity:.7;
+}
+.center{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
 }
 
-/* Header */
-.header {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    padding: 18px 0;
-    text-align: center;
-    font-size: 13px;
-    letter-spacing: 3px;
-    opacity: 0.7;
+/* Login box */
+.login-box{
+    border:1px solid #888;
+    padding:30px 40px;
+}
+input{
+    padding:10px;
+    width:220px;
+    background:black;
+    border:1px solid white;
+    color:white;
+    margin-top:15px;
+    text-align:center;
+    letter-spacing:2px;
+}
+button{
+    margin-top:20px;
+    padding:10px 25px;
+    background:transparent;
+    border:1px solid white;
+    color:white;
+    cursor:pointer;
+    letter-spacing:2px;
 }
 
-/* Center */
-.container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-/* Intro */
-.intro {
-    font-size: 28px;
-    line-height: 1.5;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-}
-
-/* Button */
-button {
-    margin-top: 40px;
-    padding: 12px 28px;
-    font-size: 14px;
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    cursor: pointer;
-    letter-spacing: 2px;
-}
-
-/* Card */
-.card {
-    margin-top: 50px;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-    font-size: 18px;
-}
-
-/* Gold highlight */
-.highlight {
-    color: #d4af37;
-    font-weight: bold;
-}
-
-/* Badge */
-.badge {
-    margin-top: 30px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    opacity: 0.6;
-}
+/* Hidden briefing */
+.brief{display:none;}
+.intro{font-size:28px;opacity:0;transition:1.5s;}
+.card{margin-top:40px;opacity:0;transition:1.5s;}
+.highlight{color:#d4af37;font-weight:bold;}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-EMACITY MODEL UNITED NATIONS • AIPPM
+<div class="header">EMACITY MODEL UNITED NATIONS • AIPPM</div>
+
+<div class="center">
+
+<!-- LOGIN -->
+<div id="login" class="login-box">
+    <div>ENTER DELEGATE ID</div>
+    <input type="text" id="idInput" placeholder="DELEGATE ID">
+    <br>
+    <button onclick="verify()">VERIFY</button>
 </div>
 
-<div class="container">
+<!-- BRIEFING -->
+<div id="brief" class="brief">
+    <div id="intro" class="intro">
+        You are hereby summoned to the<br>
+        <b>ALL INDIA POLITICAL PARTIES MEET</b>
+    </div>
 
-<div id="intro" class="intro">
-You are hereby summoned to the<br>
-<b>ALL INDIA POLITICAL PARTIES MEET</b>
-</div>
+    <button onclick="start()">ENTER</button>
 
-<button onclick="start()">ENTER</button>
-
-<div id="card" class="card">
-<p>Delegate: <span class="highlight">[DELEGATE NAME]</span></p>
-<p>Affiliation: <span class="highlight">[PARTY NAME]</span></p>
-<p>Portfolio: <span class="highlight">[POSITION]</span></p>
-
-<br>
-
-<p>Your presence has been noted.</p>
-<p>The session will commence shortly.</p>
-
-<div class="badge">
-WELCOME TO EMACITY MODEL UNITED NATIONS!!!
-</div>
+    <div id="card" class="card">
+        <p>Delegate: <span id="dname" class="highlight"></span></p>
+        <p>Affiliation: <span id="party" class="highlight"></span></p>
+        <p>Portfolio: <span id="pos" class="highlight"></span></p>
+    </div>
 </div>
 
 </div>
@@ -134,28 +104,48 @@ WELCOME TO EMACITY MODEL UNITED NATIONS!!!
 <audio id="voice" preload="auto" src="voice.mp3"></audio>
 
 <script>
-function start() {
+// ====== DELEGATE DATABASE ======
+const delegates = {
+    "AIPPM101": {
+        name: "Samruddhi Askar",
+        party: "Indian National Congress",
+        position: "Shashi Tharoor"
+    }
+};
+// ===============================
 
-    const gavel = document.getElementById("gavel");
-    const voice = document.getElementById("voice");
+function verify(){
+    let id = document.getElementById("idInput").value.trim();
 
-    // Show intro immediately
-    document.getElementById("intro").style.opacity = 1;
+    if(delegates[id]){
+        document.getElementById("dname").innerText = delegates[id].name;
+        document.getElementById("party").innerText = delegates[id].party;
+        document.getElementById("pos").innerText = delegates[id].position;
 
-    // Play gavel
+        document.getElementById("login").style.display="none";
+        document.getElementById("brief").style.display="block";
+    } else {
+        alert("Invalid Delegate ID");
+    }
+}
+
+function start(){
+    const gavel=document.getElementById("gavel");
+    const voice=document.getElementById("voice");
+
+    document.getElementById("intro").style.opacity=1;
+
     gavel.currentTime = 0;
     gavel.play().catch(()=>{});
 
-    // When gavel ends → play voice
-    gavel.onended = function () {
+    gavel.onended=function(){
         voice.currentTime = 0;
         voice.play().catch(()=>{});
     };
 
-    // Reveal card slightly after voice starts
-    setTimeout(() => {
-        document.getElementById("card").style.opacity = 1;
-    }, 2500);
+    setTimeout(()=>{
+        document.getElementById("card").style.opacity=1;
+    },2500);
 }
 </script>
 
