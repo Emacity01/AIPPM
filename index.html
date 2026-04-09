@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIPPM Brief</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: black;
+    color: white;
+    overflow: hidden;
+}
+
+/* Background */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.95)),
+        url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
+        no-repeat center;
+
+    background-size: cover;
+    transform: scale(1.15);
+    z-index: -1;
+}
+
+/* Header */
+.header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 18px 0;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 3px;
+    opacity: 0.7;
+}
+
+/* Center */
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Intro */
+.intro {
+    font-size: 28px;
+    line-height: 1.5;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+/* Button */
+button {
+    margin-top: 40px;
+    padding: 12px 28px;
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+/* Card */
+.card {
+    margin-top: 50px;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    font-size: 18px;
+}
+
+/* Gold highlight */
+.highlight {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+/* Badge */
+.badge {
+    margin-top: 30px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+EMACITY MODEL UNITED NATIONS • AIPPM
+</div>
+
+<div class="container">
+
+<div id="intro" class="intro">
+You are hereby summoned to the<br>
+<b>ALL INDIA POLITICAL PARTIES MEET</b>
+</div>
+
+<button onclick="start()">ENTER</button>
+
+<div id="card" class="card">
+<p>Delegate: <span class="highlight">[DELEGATE NAME]</span></p>
+<p>Affiliation: <span class="highlight">[PARTY NAME]</span></p>
+<p>Portfolio: <span class="highlight">[POSITION]</span></p>
+
+<br>
+
+<p>Your presence has been noted.</p>
+<p>The session will commence shortly.</p>
+
+<div class="badge">
+WELCOME TO EMACITY MODEL UNITED NATIONS!!!
+</div>
+</div>
+
+</div>
+
+<!-- AUDIO FILES (local) -->
+<audio id="gavel" src="gavel.mp3"></audio>
+<audio id="voice" src="voice.mp3"></audio>
+
+<script>
+function start() {
+
+    let gavel = document.getElementById("gavel");
+    let voice = document.getElementById("voice");
+
+    // Play gavel first
+    gavel.currentTime = 0;
+    gavel.play().catch(()=>{});
+
+    // Then voice briefing
+    setTimeout(() => {
+        voice.currentTime = 0;
+        voice.play().catch(()=>{});
+    }, 900);
+
+    // Show intro text
+    document.getElementById("intro").style.opacity = 1;
+
+    // Reveal card
+    setTimeout(() => {
+        document.getElementById("card").style.opacity = 1;
+    }, 1800);
+}
+</script>
+
+</body>
+</html>
