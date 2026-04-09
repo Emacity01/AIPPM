@@ -129,33 +129,33 @@ WELCOME TO EMACITY MODEL UNITED NATIONS!!!
 
 </div>
 
-<!-- AUDIO FILES (local) -->
-<audio id="gavel" src="gavel.mp3"></audio>
-<audio id="voice" src="voice.mp3"></audio>
+<!-- AUDIO -->
+<audio id="gavel" preload="auto" src="gavel.mp3"></audio>
+<audio id="voice" preload="auto" src="voice.mp3"></audio>
 
 <script>
 function start() {
 
-    let gavel = document.getElementById("gavel");
-    let voice = document.getElementById("voice");
+    const gavel = document.getElementById("gavel");
+    const voice = document.getElementById("voice");
 
-    // Play gavel first
+    // Show intro immediately
+    document.getElementById("intro").style.opacity = 1;
+
+    // Play gavel
     gavel.currentTime = 0;
     gavel.play().catch(()=>{});
 
-    // Then voice briefing
-    setTimeout(() => {
+    // When gavel ends → play voice
+    gavel.onended = function () {
         voice.currentTime = 0;
         voice.play().catch(()=>{});
-    }, 900);
+    };
 
-    // Show intro text
-    document.getElementById("intro").style.opacity = 1;
-
-    // Reveal card
+    // Reveal card slightly after voice starts
     setTimeout(() => {
         document.getElementById("card").style.opacity = 1;
-    }, 1800);
+    }, 2500);
 }
 </script>
 
