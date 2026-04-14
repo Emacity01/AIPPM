@@ -157,11 +157,6 @@ button:focus {
     text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
 /* Mobile optimization */
 @media (max-width: 480px) {
     .header { font-size: 11px; padding: 12px 0; }
@@ -218,35 +213,44 @@ button:focus {
 
 </div>
 
+<!-- AUDIO FILES - YOUR LOCAL FILES -->
+<audio id="gavelSound" preload="auto" src="gavel.mp3"></audio>
+<audio id="voiceSound" preload="auto" src="voice.mp3"></audio>
+
 <!-- Fullscreen button -->
 <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
 
 <script>
-// ====== COMPLETE DELEGATE DATABASE ======
+// ====== DELEGATE DATABASE ======
 const delegates = {
-    // Batch 1
     "AIPPM101": { name: "Samruddhi Askar", party: "Indian National Congress", position: "Dr. Shashi Tharoor" },
     "AIPPM102": { name: "Bhagyashri Vikram Nagargoje", party: "Bharatiya Janata Party", position: "Amit Shah" },
     "AIPPM103": { name: "Siddhesh Sachin Tiwari", party: "Bharatiya Janata Party", position: "Narendra Modi" },
     "AIPPM104": { name: "Geet Valecha", party: "Bharatiya Janata Party", position: "Nirmala Sitharaman" },
-    
+    "AIPPM105": { name: "Aarav Sharma", party: "Aam Aadmi Party", position: "Arvind Kejriwal" },
+    "AIPPM106": { name: "Priya Menon", party: "Trinamool Congress", position: "Mamata Banerjee" },
+    "AIPPM107": { name: "Rahul Desai", party: "Dravida Munnetra Kazhagam", position: "M.K. Stalin" },
+    "AIPPM108": { name: "Ananya Rao", party: "Shiv Sena", position: "Uddhav Thackeray" },
+    "DEMO001": { name: "Test Delegate", party: "Sample Party", position: "Sample Portfolio" },
+    "ADMIN": { name: "Committee Director", party: "EMACITY MUN", position: "AIPPM Chair" }
 };
+
+// ====== AUDIO ELEMENTS ======
+const gavelAudio = document.getElementById("gavelSound");
+const voiceAudio = document.getElementById("voiceSound");
 
 // ====== MAIN FUNCTIONS ======
 function verifyDelegate() {
     let id = document.getElementById("idInput").value.trim().toUpperCase();
     
     if (delegates[id]) {
-        // Store delegate data
         sessionStorage.setItem('delegateData', JSON.stringify(delegates[id]));
         sessionStorage.setItem('delegateId', id);
         
-        // Update display
         document.getElementById("dname").innerText = delegates[id].name;
         document.getElementById("party").innerText = delegates[id].party;
         document.getElementById("pos").innerText = delegates[id].position;
 
-        // Smooth transition
         document.getElementById("login").style.opacity = "0";
         document.getElementById("login").style.transform = "scale(0.95)";
         
@@ -256,7 +260,6 @@ function verifyDelegate() {
         }, 300);
         
     } else {
-        // Invalid ID feedback
         const input = document.getElementById("idInput");
         input.style.borderColor = "#ff4444";
         input.style.boxShadow = "0 0 10px rgba(255,68,68,0.5)";
@@ -275,58 +278,43 @@ function verifyDelegate() {
 function startBriefing() {
     const intro = document.getElementById("intro");
     
-    // Intro animation
+    // Show intro text
     intro.style.opacity = "1";
     
-    // Gavel sound effect (works everywhere)
-    playGavelSound();
+    // STEP 1: GAVEL SOUND FIRST
+    playGavelThenVoice();
+}
+
+function playGavelThenVoice() {
+    // Reset and play gavel
+    gavelAudio.currentTime = 0;
+    gavelAudio.play().then(() => {
+        console.log("✅ Gavel played!");
+        
+        // STEP 2: When gavel ends, play voice
+        gavelAudio.onended = function() {
+            console.log("🎤 Playing voice...");
+            
+            // Reset and play voice
+            voiceAudio.currentTime = 0;
+            voiceAudio.play().then(() => {
+                console.log("✅ Voice played!");
+            }).catch(e => {
+                console.log("Voice audio failed:", e);
+            });
+        };
+    }).catch(e => {
+        console.log("Gavel audio failed:", e);
+        // Fallback if audio fails
+        setTimeout(() => {
+            document.getElementById("card").style.opacity = "1";
+        }, 1000);
+    });
     
-    // Voice announcement simulation
-    setTimeout(() => {
-        speakAnnouncement();
-    }, 500);
-    
-    // Show delegate card
+    // Show delegate card after sequence
     setTimeout(() => {
         document.getElementById("card").style.opacity = "1";
-        
-        // Optional: Auto-redirect or show next screen after 4s
-        setTimeout(() => {
-            if (confirm("Proceed to AIPPM Briefing?")) {
-                // window.location.href = "briefing.html?" + sessionStorage.getItem('delegateId');
-                alert("✅ Delegate verified! Ready for AIPPM Session.\n\nPress F11 for fullscreen.");
-            }
-        }, 4000);
-    }, 2500);
-}
-
-// ====== AUDIO EFFECTS (NO EXTERNAL FILES NEEDED) ======
-function playGavelSound() {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.2);
-    oscillator.type = 'square';
-    
-    gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.3);
-}
-
-function speakAnnouncement() {
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance("Session commencing");
-        utterance.rate = 0.8;
-        utterance.pitch = 0.8;
-        speechSynthesis.speak(utterance);
-    }
+    }, 4000);
 }
 
 // ====== EVENT LISTENERS ======
@@ -336,16 +324,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Enter key support
     input.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") verifyDelegate();
-    });
-    
-    // Caps lock warning
-    input.addEventListener("keyup", function(e) {
-        if (e.getModifierState("CapsLock")) {
-            input.placeholder = "CAPS LOCK ON";
-            setTimeout(() => input.placeholder = "DELEGATE ID", 1000);
+        if (e.key === "Enter") {
+            verifyDelegate();
         }
     });
+    
+    // Preload audio
+    gavelAudio.load();
+    voiceAudio.load();
 });
 
 // Presentation security
@@ -362,16 +348,14 @@ function toggleFullscreen() {
     }
 }
 
-// Auto-play audio context on first interaction
-let audioContextInitialized = false;
-function initAudioContext() {
-    if (!audioContextInitialized) {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        audioContextInitialized = true;
+// Fix for mobile autoplay (user gesture required)
+document.addEventListener('click', function() {
+    // Resume audio context if suspended
+    if (gavelAudio.paused && voiceAudio.paused) {
+        gavelAudio.load();
+        voiceAudio.load();
     }
-}
-document.addEventListener('click', initAudioContext, { once: true });
-document.addEventListener('keydown', initAudioContext, { once: true });
+}, { once: true });
 </script>
 
 </body>
