@@ -2,68 +2,189 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AIPPM Brief</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMACITY MUN • AIPPM Brief</title>
 
 <style>
-body{
-    margin:0;
-    font-family:Georgia,serif;
-    background:black;
-    color:white;
-    overflow:hidden;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
+
+body {
+    font-family: 'Georgia', serif;
+    background: black;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
     background:
-      linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,.95)),
-      url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
-      no-repeat center/cover;
-    transform:scale(1.15);
-    z-index:-1;
+        linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,.95)),
+        url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
+        no-repeat center/cover;
+    transform: scale(1.15);
+    z-index: -1;
 }
-.header{
-    position:absolute;top:0;width:100%;
-    padding:18px 0;text-align:center;
-    font-size:13px;letter-spacing:3px;opacity:.7;
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 18px 0;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 3px;
+    opacity: .7;
+    text-transform: uppercase;
 }
-.center{
-    position:absolute;top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    text-align:center;
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
 }
 
 /* Login box */
-.login-box{
-    border:1px solid #888;
-    padding:30px 40px;
-}
-input{
-    padding:10px;
-    width:220px;
-    background:black;
-    border:1px solid white;
-    color:white;
-    margin-top:15px;
-    text-align:center;
-    letter-spacing:2px;
-}
-button{
-    margin-top:20px;
-    padding:10px 25px;
-    background:transparent;
-    border:1px solid white;
-    color:white;
-    cursor:pointer;
-    letter-spacing:2px;
+.login-box {
+    border: 1px solid #888;
+    padding: 40px 30px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
 }
 
-/* Hidden briefing */
-.brief{display:none;}
-.intro{font-size:28px;opacity:0;transition:1.5s;}
-.card{margin-top:40px;opacity:0;transition:1.5s;}
-.highlight{color:#d4af37;font-weight:bold;}
+.login-box > div {
+    font-size: 18px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+input {
+    padding: 12px 15px;
+    width: 100%;
+    max-width: 280px;
+    background: rgba(0,0,0,0.8);
+    border: 1px solid white;
+    color: white;
+    margin-top: 15px;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 16px;
+    font-family: inherit;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+input::placeholder {
+    color: #888;
+    letter-spacing: 1px;
+}
+
+button {
+    margin-top: 25px;
+    padding: 12px 35px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    letter-spacing: 2px;
+    font-family: inherit;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: white;
+    color: black;
+    border-color: white;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* Briefing */
+.brief { display: none; }
+.intro {
+    font-size: 28px;
+    opacity: 0;
+    transition: 1.5s;
+    line-height: 1.4;
+    margin-bottom: 30px;
+}
+
+.card {
+    margin-top: 40px;
+    opacity: 0;
+    transition: 1.5s;
+    padding: 25px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.card p {
+    margin: 12px 0;
+    font-size: 16px;
+}
+
+.card p:first-child { margin-top: 0; }
+
+.highlight {
+    color: #d4af37;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Mobile optimization */
+@media (max-width: 480px) {
+    .header { font-size: 11px; padding: 12px 0; }
+    .intro { font-size: 22px; }
+    .login-box { padding: 30px 20px; }
+    .card { padding: 20px; margin-top: 30px; }
+}
+
+/* Fullscreen button */
+.fullscreen-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid white;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    opacity: 0.8;
+}
+
+.fullscreen-btn:hover { opacity: 1; }
 </style>
 </head>
 
@@ -76,9 +197,7 @@ button{
 <!-- LOGIN -->
 <div id="login" class="login-box">
     <div>ENTER DELEGATE ID</div>
-    <input type="text" id="idInput" placeholder="DELEGATE ID">
-    <br>
-    <button onclick="verify()">VERIFY</button>
+    <input type="text" id="idInput" placeholder="DELEGATE ID" maxlength="8">
 </div>
 
 <!-- BRIEFING -->
@@ -88,7 +207,7 @@ button{
         <b>ALL INDIA POLITICAL PARTIES MEET</b>
     </div>
 
-    <button onclick="start()">ENTER</button>
+    <button onclick="startBriefing()">ENTER SESSION</button>
 
     <div id="card" class="card">
         <p>Delegate: <span id="dname" class="highlight"></span></p>
@@ -99,69 +218,160 @@ button{
 
 </div>
 
-<!-- AUDIO -->
-<audio id="gavel" preload="auto" src="gavel.mp3"></audio>
-<audio id="voice" preload="auto" src="voice.mp3"></audio>
+<!-- Fullscreen button -->
+<button class="fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
 
 <script>
-// ====== DELEGATE DATABASE ======
+// ====== COMPLETE DELEGATE DATABASE ======
 const delegates = {
-    "AIPPM101": {
-        name: "Samruddhi Askar",
-        party: "Indian National Congress",
-        position: "Dr. Shashi Tharoor"
-    },
-    "AIPPM102": {
-        name: "Bhagyashri Vikram Nagargoje",
-        party: "Bharatiya Janata Party",
-        position: "Amit Shah"
-    },
-    "AIPPM103": {
-        name: "Siddhesh Sachin Tiwari",
-        party: "Bharatiya Janata Party",
-        position: "Narendra Modi"
-    },
-    "AIPPM104": {
-        name: "Geet Valecha",
-        party: "Bharatiya Janata Party",
-        position: "Nirmala Sitharaman"
-    }
+    // Batch 1
+    "AIPPM101": { name: "Samruddhi Askar", party: "Indian National Congress", position: "Dr. Shashi Tharoor" },
+    "AIPPM102": { name: "Bhagyashri Vikram Nagargoje", party: "Bharatiya Janata Party", position: "Amit Shah" },
+    "AIPPM103": { name: "Siddhesh Sachin Tiwari", party: "Bharatiya Janata Party", position: "Narendra Modi" },
+    "AIPPM104": { name: "Geet Valecha", party: "Bharatiya Janata Party", position: "Nirmala Sitharaman" },
+    
 };
-// ===============================
 
-function verify(){
-    let id = document.getElementById("idInput").value.trim();
-
-    if(delegates[id]){
+// ====== MAIN FUNCTIONS ======
+function verifyDelegate() {
+    let id = document.getElementById("idInput").value.trim().toUpperCase();
+    
+    if (delegates[id]) {
+        // Store delegate data
+        sessionStorage.setItem('delegateData', JSON.stringify(delegates[id]));
+        sessionStorage.setItem('delegateId', id);
+        
+        // Update display
         document.getElementById("dname").innerText = delegates[id].name;
         document.getElementById("party").innerText = delegates[id].party;
         document.getElementById("pos").innerText = delegates[id].position;
 
-        document.getElementById("login").style.display="none";
-        document.getElementById("brief").style.display="block";
+        // Smooth transition
+        document.getElementById("login").style.opacity = "0";
+        document.getElementById("login").style.transform = "scale(0.95)";
+        
+        setTimeout(() => {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("brief").style.display = "block";
+        }, 300);
+        
     } else {
-        alert("Invalid Delegate ID");
+        // Invalid ID feedback
+        const input = document.getElementById("idInput");
+        input.style.borderColor = "#ff4444";
+        input.style.boxShadow = "0 0 10px rgba(255,68,68,0.5)";
+        input.value = "";
+        input.placeholder = "❌ INVALID ID";
+        
+        setTimeout(() => {
+            input.style.borderColor = "white";
+            input.style.boxShadow = "none";
+            input.placeholder = "DELEGATE ID";
+            input.focus();
+        }, 1500);
     }
 }
 
-function start(){
-    const gavel=document.getElementById("gavel");
-    const voice=document.getElementById("voice");
-
-    document.getElementById("intro").style.opacity=1;
-
-    gavel.currentTime = 0;
-    gavel.play().catch(()=>{});
-
-    gavel.onended=function(){
-        voice.currentTime = 0;
-        voice.play().catch(()=>{});
-    };
-
-    setTimeout(()=>{
-        document.getElementById("card").style.opacity=1;
-    },2500);
+function startBriefing() {
+    const intro = document.getElementById("intro");
+    
+    // Intro animation
+    intro.style.opacity = "1";
+    
+    // Gavel sound effect (works everywhere)
+    playGavelSound();
+    
+    // Voice announcement simulation
+    setTimeout(() => {
+        speakAnnouncement();
+    }, 500);
+    
+    // Show delegate card
+    setTimeout(() => {
+        document.getElementById("card").style.opacity = "1";
+        
+        // Optional: Auto-redirect or show next screen after 4s
+        setTimeout(() => {
+            if (confirm("Proceed to AIPPM Briefing?")) {
+                // window.location.href = "briefing.html?" + sessionStorage.getItem('delegateId');
+                alert("✅ Delegate verified! Ready for AIPPM Session.\n\nPress F11 for fullscreen.");
+            }
+        }, 4000);
+    }, 2500);
 }
+
+// ====== AUDIO EFFECTS (NO EXTERNAL FILES NEEDED) ======
+function playGavelSound() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.2);
+    oscillator.type = 'square';
+    
+    gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+}
+
+function speakAnnouncement() {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance("Session commencing");
+        utterance.rate = 0.8;
+        utterance.pitch = 0.8;
+        speechSynthesis.speak(utterance);
+    }
+}
+
+// ====== EVENT LISTENERS ======
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById("idInput");
+    input.focus();
+    
+    // Enter key support
+    input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") verifyDelegate();
+    });
+    
+    // Caps lock warning
+    input.addEventListener("keyup", function(e) {
+        if (e.getModifierState("CapsLock")) {
+            input.placeholder = "CAPS LOCK ON";
+            setTimeout(() => input.placeholder = "DELEGATE ID", 1000);
+        }
+    });
+});
+
+// Presentation security
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+
+// Fullscreen toggle
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// Auto-play audio context on first interaction
+let audioContextInitialized = false;
+function initAudioContext() {
+    if (!audioContextInitialized) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        audioContextInitialized = true;
+    }
+}
+document.addEventListener('click', initAudioContext, { once: true });
+document.addEventListener('keydown', initAudioContext, { once: true });
 </script>
 
 </body>
