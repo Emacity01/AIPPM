@@ -6,180 +6,55 @@
 <title>EMACITY MUN • AIPPM Brief</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:'Georgia',serif;
+    background:black;color:white;height:100vh;overflow:hidden;
 }
-
-body {
-    font-family: 'Georgia', serif;
-    background: black;
-    color: white;
-    height: 100vh;
-    overflow: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+body::before{
+    content:"";position:fixed;inset:0;
     background:
-        linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,.95)),
-        url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
-        no-repeat center/cover;
-    transform: scale(1.15);
-    z-index: -1;
+    linear-gradient(to bottom,rgba(0,0,0,.85),rgba(0,0,0,.95)),
+    url("https://t4.ftcdn.net/jpg/16/09/14/03/360_F_1609140310_Gk0htXMO6xx6k0mangckTUve7PKZwyUV.jpg")
+    no-repeat center/cover;
+    transform:scale(1.15);z-index:-1;
 }
-
-.header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 18px 0;
-    text-align: center;
-    font-size: 13px;
-    letter-spacing: 3px;
-    opacity: .7;
-    text-transform: uppercase;
+.header{
+    position:fixed;top:0;width:100%;padding:18px 0;
+    text-align:center;font-size:13px;letter-spacing:3px;opacity:.7;
 }
-
-.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
+.center{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);text-align:center;width:90%;max-width:420px;
 }
-
-/* Login box */
-.login-box {
-    border: 1px solid #888;
-    padding: 40px 30px;
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
+.login-box{
+    border:1px solid #888;padding:40px 30px;border-radius:8px;
+    backdrop-filter:blur(10px);
 }
-
-.login-box > div {
-    font-size: 18px;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
+input{
+    padding:12px;width:100%;margin-top:18px;
+    background:black;border:1px solid white;color:white;
+    text-align:center;font-size:16px;border-radius:4px;
 }
-
-input {
-    padding: 12px 15px;
-    width: 100%;
-    max-width: 280px;
-    background: rgba(0,0,0,0.8);
-    border: 1px solid white;
-    color: white;
-    margin-top: 15px;
-    text-align: center;
-    letter-spacing: 2px;
-    font-size: 16px;
-    font-family: inherit;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+button{
+    margin-top:25px;padding:12px 35px;background:transparent;
+    border:1px solid white;color:white;cursor:pointer;
 }
+button:hover{background:white;color:black}
 
-input:focus {
-    outline: none;
-    border-color: #d4af37;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+.brief{display:none}
+.intro{font-size:28px;opacity:0;transition:1.5s;margin-bottom:30px}
+.card{
+    margin-top:40px;opacity:0;transition:1.5s;
+    padding:25px;border:1px solid #888;border-radius:8px;
+    backdrop-filter:blur(10px);
 }
-
-input::placeholder {
-    color: #888;
-    letter-spacing: 1px;
+.highlight{color:#d4af37;font-weight:bold}
+.fullscreen-btn{
+    position:fixed;bottom:20px;right:20px;
+    border:1px solid white;background:black;color:white;
+    padding:8px 12px;cursor:pointer;
 }
-
-button {
-    margin-top: 25px;
-    padding: 12px 35px;
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    cursor: pointer;
-    letter-spacing: 2px;
-    font-family: inherit;
-    font-size: 14px;
-    text-transform: uppercase;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-button:hover {
-    background: white;
-    color: black;
-    border-color: white;
-}
-
-button:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
-
-/* Briefing */
-.brief { display: none; }
-.intro {
-    font-size: 28px;
-    opacity: 0;
-    transition: 1.5s;
-    line-height: 1.4;
-    margin-bottom: 30px;
-}
-
-.card {
-    margin-top: 40px;
-    opacity: 0;
-    transition: 1.5s;
-    padding: 25px;
-    border: 1px solid #888;
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-}
-
-.card p {
-    margin: 12px 0;
-    font-size: 16px;
-}
-
-.card p:first-child { margin-top: 0; }
-
-.highlight {
-    color: #d4af37;
-    font-weight: bold;
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-/* Mobile optimization */
-@media (max-width: 480px) {
-    .header { font-size: 11px; padding: 12px 0; }
-    .intro { font-size: 22px; }
-    .login-box { padding: 30px 20px; }
-    .card { padding: 20px; margin-top: 30px; }
-}
-
-/* Fullscreen button */
-.fullscreen-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.7);
-    border: 1px solid white;
-    padding: 8px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    border-radius: 4px;
-    opacity: 0.8;
-}
-
-.fullscreen-btn:hover { opacity: 1; }
 </style>
 </head>
 
@@ -192,10 +67,10 @@ button:focus {
 <!-- LOGIN -->
 <div id="login" class="login-box">
     <div>ENTER DELEGATE ID</div>
-    <input type="text" id="idInput" placeholder="DELEGATE ID" maxlength="8">
+    <input type="text" id="idInput" placeholder="AIPPM101">
 </div>
 
-<!-- BRIEFING -->
+<!-- BRIEF -->
 <div id="brief" class="brief">
     <div id="intro" class="intro">
         You are hereby summoned to the<br>
@@ -213,145 +88,71 @@ button:focus {
 
 </div>
 
-<!-- AUDIO FILES - YOUR LOCAL FILES -->
-<audio id="gavelSound" preload="auto" src="gavel.mp3"></audio>
-<audio id="voiceSound" preload="auto" src="voice.mp3"></audio>
+<audio id="gavelSound" src="gavel.mp3"></audio>
+<audio id="voiceSound" src="voice.mp3"></audio>
 
-<!-- Fullscreen button -->
-<button class="fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+<button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
 <script>
-// ====== DELEGATE DATABASE ======
+// ===== DATABASE =====
 const delegates = {
-    "AIPPM101": { name: "Samruddhi Askar", party: "Indian National Congress", position: "Dr. Shashi Tharoor" },
-    "AIPPM102": { name: "Bhagyashri Vikram Nagargoje", party: "Bharatiya Janata Party", position: "Narendra Modi" },
-    "AIPPM103": { name: "Siddhesh Sachin Tiwari", party: "Bharatiya Janata Party", position: "Amit Shah" },
-    "AIPPM104": { name: "Geet Valecha", party: "Bharatiya Janata Party", position: "Nirmala Sitharaman" },
-    "AIPPM105": { name: "Putul Bafna", party: "Indian National Congress", position: "Rahul Gandhi" },
-"RIS10": { name: "Rishabh Singh", position: "Chair" }
+"AIPPM101": { name:"Samruddhi Askar", party:"Indian National Congress", position:"Dr. Shashi Tharoor" },
+"AIPPM102": { name:"Bhagyashri Vikram Nagargoje", party:"Bharatiya Janata Party", position:"Narendra Modi" },
+"AIPPM103": { name:"Siddhesh Sachin Tiwari", party:"Bharatiya Janata Party", position:"Amit Shah" },
+"AIPPM104": { name:"Geet Valecha", party:"Bharatiya Janata Party", position:"Nirmala Sitharaman" },
+"AIPPM105": { name:"Putul Bafna", party:"Indian National Congress", position:"Rahul Gandhi" },
+"AIPPM106": { name:"Shaurya Atkari", party:"Shiv Sena (UBT)", position:"Uddhav Thackeray" },
+"AIPPM107": { name:"Hridaan Chhabra", party:"Indian National Congress", position:"Sachin Pilot" },
+"RIS10": { name:"Rishabh Singh", party:"Executive Board", position:"Chair • AIPPM" }
 };
 
-// ====== AUDIO ELEMENTS ======
-const gavelAudio = document.getElementById("gavelSound");
-const voiceAudio = document.getElementById("voiceSound");
+// ===== VERIFY =====
+const input=document.getElementById("idInput");
+input.focus();
 
-// ====== MAIN FUNCTIONS ======
-function verifyDelegate() {
-    let id = document.getElementById("idInput").value.trim().toUpperCase();
-    
-    if (delegates[id]) {
-        sessionStorage.setItem('delegateData', JSON.stringify(delegates[id]));
-        sessionStorage.setItem('delegateId', id);
-        
-        document.getElementById("dname").innerText = delegates[id].name;
-        document.getElementById("party").innerText = delegates[id].party;
-        document.getElementById("pos").innerText = delegates[id].position;
-
-        document.getElementById("login").style.opacity = "0";
-        document.getElementById("login").style.transform = "scale(0.95)";
-        
-        setTimeout(() => {
-            document.getElementById("login").style.display = "none";
-            document.getElementById("brief").style.display = "block";
-        }, 300);
-        
-    } else {
-        const input = document.getElementById("idInput");
-        input.style.borderColor = "#ff4444";
-        input.style.boxShadow = "0 0 10px rgba(255,68,68,0.5)";
-        input.value = "";
-        input.placeholder = "❌ INVALID ID";
-        
-        setTimeout(() => {
-            input.style.borderColor = "white";
-            input.style.boxShadow = "none";
-            input.placeholder = "DELEGATE ID";
-            input.focus();
-        }, 1500);
-    }
-}
-
-function startBriefing() {
-    const intro = document.getElementById("intro");
-    
-    // Show intro text
-    intro.style.opacity = "1";
-    
-    // STEP 1: GAVEL SOUND FIRST
-    playGavelThenVoice();
-}
-
-function playGavelThenVoice() {
-    // Reset and play gavel
-    gavelAudio.currentTime = 0;
-    gavelAudio.play().then(() => {
-        console.log("✅ Gavel played!");
-        
-        // STEP 2: When gavel ends, play voice
-        gavelAudio.onended = function() {
-            console.log("🎤 Playing voice...");
-            
-            // Reset and play voice
-            voiceAudio.currentTime = 0;
-            voiceAudio.play().then(() => {
-                console.log("✅ Voice played!");
-            }).catch(e => {
-                console.log("Voice audio failed:", e);
-            });
-        };
-    }).catch(e => {
-        console.log("Gavel audio failed:", e);
-        // Fallback if audio fails
-        setTimeout(() => {
-            document.getElementById("card").style.opacity = "1";
-        }, 1000);
-    });
-    
-    // Show delegate card after sequence
-    setTimeout(() => {
-        document.getElementById("card").style.opacity = "1";
-    }, 4000);
-}
-
-// ====== EVENT LISTENERS ======
-document.addEventListener('DOMContentLoaded', function() {
-    const input = document.getElementById("idInput");
-    input.focus();
-    
-    // Enter key support
-    input.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            verifyDelegate();
-        }
-    });
-    
-    // Preload audio
-    gavelAudio.load();
-    voiceAudio.load();
+input.addEventListener("keypress",e=>{
+ if(e.key==="Enter") verify();
 });
 
-// Presentation security
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
+function verify(){
+ let id=input.value.trim().toUpperCase();
+ if(delegates[id]){
+   let d=delegates[id];
+   document.getElementById("dname").innerText=d.name;
+   document.getElementById("party").innerText=d.party;
+   document.getElementById("pos").innerText=d.position;
 
-// Fullscreen toggle
-function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-    } else {
-        document.exitFullscreen();
-    }
+   document.getElementById("login").style.display="none";
+   document.getElementById("brief").style.display="block";
+ }else{
+   input.value="";
+   input.placeholder="INVALID ID";
+ }
 }
 
-// Fix for mobile autoplay (user gesture required)
-document.addEventListener('click', function() {
-    // Resume audio context if suspended
-    if (gavelAudio.paused && voiceAudio.paused) {
-        gavelAudio.load();
-        voiceAudio.load();
-    }
-}, { once: true });
+// ===== BRIEFING =====
+function startBriefing(){
+ document.getElementById("intro").style.opacity=1;
+
+ let g=document.getElementById("gavelSound");
+ let v=document.getElementById("voiceSound");
+
+ g.play().catch(()=>{});
+ g.onended=()=>{v.play().catch(()=>{});}
+
+ setTimeout(()=>{
+   document.getElementById("card").style.opacity=1;
+ },4000);
+}
+
+// ===== FULLSCREEN =====
+function toggleFullscreen(){
+ if(!document.fullscreenElement){
+   document.documentElement.requestFullscreen();
+ }else{
+   document.exitFullscreen();
+ }
+}
 </script>
 
 </body>
