@@ -121,9 +121,12 @@ function verify(){
  let id=input.value.trim().toUpperCase();
  if(delegates[id]){
    let d=delegates[id];
+
    document.getElementById("dname").innerText=d.name;
    document.getElementById("party").innerText=d.party;
-   document.getElementById("pos").innerText=d.position;
+
+   // ✅ FIX HERE
+   document.getElementById("pos").innerText = d.position || d.portfolio;
 
    document.getElementById("login").style.display="none";
    document.getElementById("brief").style.display="block";
