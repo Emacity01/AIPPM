@@ -94,22 +94,23 @@ button:hover{background:white;color:black}
 <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
 <script>
-// ===== DATABASE =====
-const delegates = {
-"AIPPM101": { name:"Samruddhi Askar", party:"Indian National Congress", position:"Dr. Shashi Tharoor" },
-"AIPPM102": { name:"Bhagyashri Vikram Nagargoje", party:"Bharatiya Janata Party", position:"Narendra Modi" },
-"AIPPM103": { name:"Siddhesh Sachin Tiwari", party:"Bharatiya Janata Party", position:"Amit Shah" },
-"AIPPM104": { name:"Geet Valecha", party:"Bharatiya Janata Party", position:"Nirmala Sitharaman" },
-"AIPPM105": { name:"Putul Bafna", party:"Indian National Congress", position:"Rahul Gandhi" },
-"AIPPM106": { name:"Shaurya Atkari", party:"Shiv Sena (UBT)", position:"Uddhav Thackeray" },
-"AIPPM107": { name:"Ayna Philip", party:"Bharatiya Janata Party", position:"Raghav Chadha" },
-"AIPPM108": { name: "Ayush Dinesh Wani", party:"Bharatiya Janata Party", portfolio: "S. Jaishankar" },
-"AIPPM109": { name: "Shakalya Mishra", party:"Indian National Congress", portfolio: "Subramanian Swamy" },
 
-"RIS10": { name:"Rishabh Singh", party:"Executive Board", position:"Chair • AIPPM" }
+// ===== DATABASE (CLEANED) =====
+const delegates = {
+"AIPPM101": { name:"Samruddhi Askar", party:"Indian National Congress", portfolio:"Dr. Shashi Tharoor" },
+"AIPPM102": { name:"Bhagyashri Vikram Nagargoje", party:"Bharatiya Janata Party", portfolio:"Narendra Modi" },
+"AIPPM103": { name:"Siddhesh Sachin Tiwari", party:"Bharatiya Janata Party", portfolio:"Amit Shah" },
+"AIPPM104": { name:"Geet Valecha", party:"Bharatiya Janata Party", portfolio:"Nirmala Sitharaman" },
+"AIPPM105": { name:"Putul Bafna", party:"Indian National Congress", portfolio:"Rahul Gandhi" },
+"AIPPM106": { name:"Shaurya Atkari", party:"Shiv Sena (UBT)", portfolio:"Uddhav Thackeray" },
+"AIPPM107": { name:"Ayna Philip", party:"Bharatiya Janata Party", portfolio:"Raghav Chadha" },
+"AIPPM108": { name:"Ayush Dinesh Wani", party:"Bharatiya Janata Party", portfolio:"S. Jaishankar" },
+"AIPPM109": { name:"Shakalya Mishra", party:"Indian National Congress", portfolio:"Subramanian Swamy" },
+
+"RIS10": { name:"Rishabh Singh", party:"Executive Board", portfolio:"Chair • AIPPM" }
 };
 
-// ===== VERIFY =====
+// ===== LOGIN =====
 const input=document.getElementById("idInput");
 input.focus();
 
@@ -119,14 +120,13 @@ input.addEventListener("keypress",e=>{
 
 function verify(){
  let id=input.value.trim().toUpperCase();
+
  if(delegates[id]){
    let d=delegates[id];
 
    document.getElementById("dname").innerText=d.name;
    document.getElementById("party").innerText=d.party;
-
-   // ✅ FIX HERE
-   document.getElementById("pos").innerText = d.position || d.portfolio;
+   document.getElementById("pos").innerText=d.portfolio;
 
    document.getElementById("login").style.display="none";
    document.getElementById("brief").style.display="block";
@@ -159,6 +159,7 @@ function toggleFullscreen(){
    document.exitFullscreen();
  }
 }
+
 </script>
 
 </body>
