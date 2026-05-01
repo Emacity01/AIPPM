@@ -64,13 +64,11 @@ button:hover{background:white;color:black}
 
 <div class="center">
 
-<!-- LOGIN -->
 <div id="login" class="login-box">
     <div>ENTER DELEGATE ID</div>
     <input type="text" id="idInput" placeholder="AIPPM101">
 </div>
 
-<!-- BRIEF -->
 <div id="brief" class="brief">
     <div id="intro" class="intro">
         You are hereby summoned to the<br>
@@ -94,8 +92,6 @@ button:hover{background:white;color:black}
 <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
 <script>
-
-// ===== DATABASE =====
 const delegates = {
 "AIPPM101": { name:"Samruddhi Askar", party:"Indian National Congress", portfolio:"Dr. Shashi Tharoor" },
 "AIPPM102": { name:"Bhagyashri Vikram Nagargoje", party:"Bharatiya Janata Party", portfolio:"Narendra Modi" },
@@ -108,7 +104,6 @@ const delegates = {
 "AIPPM109": { name:"Shakalya Mishra", party:"Indian National Congress", portfolio:"Dr. Subramanian Swamy" },
 "AIPPM110": { name:"Avani Nachiket Agashe", party:"Indian National Congress", portfolio:"P. Chidambaram" },
 "AIPPM111": { name:"Tavish Bansal", party:"Bharatiya Janata Party", portfolio:"Rajnath Singh" },
-"AIPPM112": { name:"Saharsh Bodana", party:"Aam Aadmi Party", portfolio:"Arvind Kejriwal" },
 "AIPPM112": { name:"Saharsh Bodana", party:"Aam Aadmi Party", portfolio:"Arvind Kejriwal" },
 "AIPPM113": { name:"Prisha", party:"All India Trinamool Congress", portfolio:"Mamata Banerjee" },
 "AIPPM114": { name:"Agastyaa Saurabh Soni", party:"Bharatiya Janata Party", portfolio:"Nitin Gadkari" },
@@ -123,11 +118,9 @@ const delegates = {
 "AIPPM123": { name:"Harrish Aravind K", party:"All India Majlis-e-Ittehadul Muslimeen", portfolio:"Asaduddin Owaisi" },
 "AIPPM124": { name:"Avanish Dnyandeo Jadhav", party:"Bharatiya Janata Party", portfolio:"Dharmendra Pradhan" },
 "AIPPM125": { name:"Swarali Sandeep Dombale", party:"Nationalist Congress Party", portfolio:"Sharad Pawar" },
-
 "RIS10": { name:"Rishabh Singh", party:"Executive Board", portfolio:"Chair • AIPPM" }
 };
 
-// ===== LOGIN =====
 const input=document.getElementById("idInput");
 input.focus();
 
@@ -140,7 +133,6 @@ function verify(){
 
  if(delegates[id]){
    let d=delegates[id];
-
    document.getElementById("dname").innerText=d.name;
    document.getElementById("party").innerText=d.party;
    document.getElementById("portfolio").innerText=d.portfolio;
@@ -153,22 +145,13 @@ function verify(){
  }
 }
 
-// ===== BRIEFING =====
 function startBriefing(){
  document.getElementById("intro").style.opacity=1;
-
- let g=document.getElementById("gavelSound");
- let v=document.getElementById("voiceSound");
-
- g.play().catch(()=>{});
- g.onended=()=>{v.play().catch(()=>{});}
-
  setTimeout(()=>{
    document.getElementById("card").style.opacity=1;
  },4000);
 }
 
-// ===== FULLSCREEN =====
 function toggleFullscreen(){
  if(!document.fullscreenElement){
    document.documentElement.requestFullscreen();
@@ -176,7 +159,6 @@ function toggleFullscreen(){
    document.exitFullscreen();
  }
 }
-
 </script>
 
 </body>
