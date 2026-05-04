@@ -86,13 +86,9 @@ button:hover{background:white;color:black}
 
 </div>
 
-<audio id="gavelSound" src="gavel.mp3"></audio>
-<audio id="voiceSound" src="voice.mp3"></audio>
-
 <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
 <script>
-
 const delegates = {
 "AIPPM101": { name:"Samruddhi Askar", party:"Indian National Congress", portfolio:"Dr. Shashi Tharoor" },
 "AIPPM102": { name:"Bhagyashri Vikram Nagargoje", party:"Bharatiya Janata Party", portfolio:"Narendra Modi" },
@@ -122,19 +118,28 @@ const delegates = {
 "AIPPM126": { name:"Mahika Shukla", party:"INC", portfolio:"Mallikarjun Kharge" },
 "AIPPM127": { name:"Saanvi Sharma", party:"BJP", portfolio:"Smriti Irani" },
 "AIPPM128": { name:"Aditya Nanoti", party:"BJP", portfolio:"Manoj Tiwari" },
-"AIPPM129": { name: "Pritam Bisoyi", party: "BRS", portfolio: "K. Chandrashekar Rao" },
+"AIPPM129": { name:"Pritam Bisoyi", party:"BRS", portfolio:"K. Chandrashekar Rao" },
 "RIS10": { name:"Rishabh Singh", party:"Executive Board", portfolio:"Chair • AIPPM" }
 };
 
 const input=document.getElementById("idInput");
 input.focus();
 
-input.addEventListener("keypress",e=>{
+input.addEventListener("keydown",e=>{
  if(e.key==="Enter") verify();
 });
 
+function normalizeID(v){
+  v=v.toUpperCase().replace(/\s/g,'');
+  if(v.startsWith("AIPPM")){
+    let n=v.replace(/\D/g,'');
+    return "AIPPM"+n;
+  }
+  return v;
+}
+
 function verify(){
- let id=input.value.trim().toUpperCase();
+ let id=normalizeID(input.value);
 
  if(delegates[id]){
    let d=delegates[id];
@@ -164,7 +169,6 @@ function toggleFullscreen(){
    document.exitFullscreen();
  }
 }
-
 </script>
 
 </body>
