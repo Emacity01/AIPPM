@@ -130,9 +130,10 @@ input.addEventListener("keydown",e=>{
 });
 
 function normalizeID(v){
-  v=v.toUpperCase().replace(/\s/g,'');
-  if(v.startsWith("AIPPM")){
-    let n=v.replace(/\D/g,'');
+  v = v.toUpperCase().replace(/\s/g,'');
+  if(v.includes("AIPPM")){
+    let n = v.replace(/\D/g,'');
+    n = parseInt(n,10);
     return "AIPPM"+n;
   }
   return v;
