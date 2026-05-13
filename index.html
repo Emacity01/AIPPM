@@ -67,6 +67,7 @@ button:hover{background:white;color:black}
 <div id="login" class="login-box">
     <div>ENTER DELEGATE ID</div>
     <input type="text" id="idInput" placeholder="AIPPM101">
+    <button onclick="verify()">Access</button>
 </div>
 
 <div id="brief" class="brief">
@@ -88,7 +89,6 @@ button:hover{background:white;color:black}
 
 <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
-<!-- AUDIO -->
 <audio id="gavelSound" src="gavel.mp3" preload="auto"></audio>
 <audio id="voiceSound" src="voice.mp3" preload="auto"></audio>
 
@@ -109,7 +109,7 @@ const delegates = {
 "AIPPM113": { name:"Prisha", party:"All India Trinamool Congress", portfolio:"Mamata Banerjee" },
 "AIPPM114": { name:"Agastyaa Saurabh Soni", party:"Bharatiya Janata Party", portfolio:"Nitin Gadkari" },
 "AIPPM115": { name:"Prabhjot Singh Nanda", party:"Indian National Congress", portfolio:"Manish Tiwari" },
-"AIPPM116": { name:"Siya Kamble", party:"Indian National Congress", portfolio:"Sonia Gandhi" },
+"AIPPM116": { name:"Aaradhya karalay", party:"Indian National Congress", portfolio:"Sonia Gandhi" },
 "AIPPM117": { name:"Vidit Tapadia", party:"Samajwadi Party", portfolio:"Akhilesh Yadav" },
 "AIPPM118": { name:"Ritu", party:"Bharatiya Janata Party", portfolio:"Piyush Goyal" },
 "AIPPM119": { name:"Mohrez Shaikh", party:"Indian National Congress", portfolio:"Jairam Ramesh" },
@@ -125,8 +125,6 @@ const delegates = {
 "AIPPM130": { name:"Taniksha Elango", party:"NCP", portfolio:"Sharad Pawar" }
 };
 
-};
-
 const input=document.getElementById("idInput");
 input.focus();
 
@@ -138,8 +136,7 @@ function normalizeID(v){
   v = v.toUpperCase().replace(/\s/g,'');
   if(v.includes("AIPPM")){
     let n = v.replace(/\D/g,'');
-    n = parseInt(n,10);
-    return "AIPPM"+n;
+    return "AIPPM"+parseInt(n,10);
   }
   return v;
 }
@@ -165,7 +162,6 @@ function verify(){
 
 function startBriefing(){
  document.getElementById("voiceSound").play();
-
  document.getElementById("intro").style.opacity=1;
  setTimeout(()=>{
    document.getElementById("card").style.opacity=1;
