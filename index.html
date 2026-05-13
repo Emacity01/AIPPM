@@ -36,14 +36,20 @@ input{
     background:black;border:1px solid white;color:white;
     text-align:center;font-size:16px;border-radius:4px;
 }
+input::placeholder {
+    color: #888;
+    opacity: 1;
+}
 button{
     margin-top:25px;padding:12px 35px;background:transparent;
     border:1px solid white;color:white;cursor:pointer;
+    font-family:'Georgia',serif;
 }
 button:hover{background:white;color:black}
+button:active{transform:scale(.98)}
 
 .brief{display:none}
-.intro{font-size:28px;opacity:0;transition:1.5s;margin-bottom:30px}
+.intro{font-size:28px;opacity:0;transition:1.5s;margin-bottom:30px;line-height:1.4}
 .card{
     margin-top:40px;opacity:0;transition:1.5s;
     padding:25px;border:1px solid #888;border-radius:8px;
@@ -53,8 +59,10 @@ button:hover{background:white;color:black}
 .fullscreen-btn{
     position:fixed;bottom:20px;right:20px;
     border:1px solid white;background:black;color:white;
-    padding:8px 12px;cursor:pointer;
+    padding:8px 12px;cursor:pointer;font-size:16px;
+    border-radius:4px;
 }
+.fullscreen-btn:hover{background:white;color:black}
 </style>
 </head>
 
@@ -65,8 +73,8 @@ button:hover{background:white;color:black}
 <div class="center">
 
 <div id="login" class="login-box">
-    <div>ENTER DELEGATE ID</div>
-    <input type="text" id="idInput" placeholder="AIPPM101">
+    <div style="font-size: 20px; margin-bottom: 20px;">ENTER DELEGATE ID</div>
+    <input type="text" id="idInput" placeholder="AIPPM101" autocomplete="off">
     <button onclick="verify()">Access</button>
 </div>
 
@@ -76,7 +84,7 @@ button:hover{background:white;color:black}
         <b>ALL INDIA POLITICAL PARTIES MEET</b>
     </div>
 
-    <button onclick="startBriefing()">ENTER SESSION</button>
+    <button id="enterBtn" onclick="startBriefing()" style="display:block;">ENTER SESSION</button>
 
     <div id="card" class="card">
         <p>Delegate: <span id="dname" class="highlight"></span></p>
@@ -87,10 +95,7 @@ button:hover{background:white;color:black}
 
 </div>
 
-<button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
-
-<audio id="gavelSound" src="gavel.mp3" preload="auto"></audio>
-<audio id="voiceSound" src="voice.mp3" preload="auto"></audio>
+<button class="fullscreen-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">⛶</button>
 
 <script>
 const delegates = {
@@ -125,56 +130,140 @@ const delegates = {
 "AIPPM130": { name:"Taniksha Elango", party:"NCP", portfolio:"Sharad Pawar" }
 };
 
-const input=document.getElementById("idInput");
+let audioContext = null;
+
+function initAudioContext() {
+    if (!audioContext) {
+        try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (e) {
+            console.log('Audio context not supported');
+        }
+    }
+}
+
+const input = document.getElementById("idInput");
+const loginBox = document.getElementById("login");
+const briefBox = document.getElementById("brief");
+const introText = document.getElementById("intro");
+const card = document.getElementById("card");
+const enterBtn = document.getElementById("enterBtn");
+
 input.focus();
 
-input.addEventListener("keydown",e=>{
- if(e.key==="Enter") verify();
+input.addEventListener("keydown", e => {
+    if (e.key === "Enter") verify();
 });
 
-function normalizeID(v){
-  v = v.toUpperCase().replace(/\s/g,'');
-  if(v.includes("AIPPM")){
-    let n = v.replace(/\D/g,'');
-    return "AIPPM"+parseInt(n,10);
-  }
-  return v;
+input.addEventListener("input", () => {
+    input.placeholder = "AIPPM101";
+});
+
+function normalizeID(v) {
+    v = v.toUpperCase().replace(/\s/g, '');
+    if (v.includes("AIPPM")) {
+        let n = v.replace(/\D/g, '');
+        return "AIPPM" + parseInt(n, 10).toString().padStart(3, '0');
+    }
+    return v;
 }
 
-function verify(){
- let id=normalizeID(input.value);
-
- if(delegates[id]){
-   document.getElementById("gavelSound").play();
-
-   let d=delegates[id];
-   document.getElementById("dname").innerText=d.name;
-   document.getElementById("party").innerText=d.party;
-   document.getElementById("portfolio").innerText=d.portfolio;
-
-   document.getElementById("login").style.display="none";
-   document.getElementById("brief").style.display="block";
- }else{
-   input.value="";
-   input.placeholder="INVALID ID";
- }
+function playGavelSound() {
+    initAudioContext();
+    // Simple beep sound as fallback since external audio files are missing
+    if (audioContext) {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.2);
+    }
 }
 
-function startBriefing(){
- document.getElementById("voiceSound").play();
- document.getElementById("intro").style.opacity=1;
- setTimeout(()=>{
-   document.getElementById("card").style.opacity=1;
- },4000);
+function playVoiceSound() {
+    initAudioContext();
+    // Simple tone sequence as fallback
+    if (audioContext) {
+        const notes = [400, 500, 600, 500];
+        let time = audioContext.currentTime;
+        notes.forEach((freq, i) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.frequency.value = freq;
+            gainNode.gain.setValueAtTime(0.2, time);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
+            oscillator.start(time);
+            oscillator.stop(time + 0.1);
+            time += 0.15;
+        });
+    }
 }
 
-function toggleFullscreen(){
- if(!document.fullscreenElement){
-   document.documentElement.requestFullscreen();
- }else{
-   document.exitFullscreen();
- }
+function verify() {
+    let id = normalizeID(input.value);
+
+    if (delegates[id]) {
+        playGavelSound();
+
+        let d = delegates[id];
+        document.getElementById("dname").innerText = d.name;
+        document.getElementById("party").innerText = d.party;
+        document.getElementById("portfolio").innerText = d.portfolio;
+
+        loginBox.style.display = "none";
+        briefBox.style.display = "block";
+        enterBtn.focus();
+    } else {
+        input.value = "";
+        input.placeholder = "INVALID ID - Try Again";
+        input.style.borderColor = "#ff4444";
+        setTimeout(() => {
+            input.style.borderColor = "white";
+            input.placeholder = "AIPPM101";
+        }, 1500);
+    }
 }
+
+function startBriefing() {
+    playVoiceSound();
+    introText.style.opacity = 1;
+    enterBtn.style.display = "none";
+    
+    setTimeout(() => {
+        card.style.opacity = 1;
+    }, 4000);
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            console.log('Fullscreen failed:', err);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// Handle fullscreen change
+document.addEventListener('fullscreenchange', () => {
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+    if (document.fullscreenElement) {
+        fullscreenBtn.innerHTML = '✕';
+    } else {
+        fullscreenBtn.innerHTML = '⛶';
+    }
+});
+
+// Prevent context menu on long press
+document.addEventListener('contextmenu', e => e.preventDefault());
+
 </script>
 
 </body>
